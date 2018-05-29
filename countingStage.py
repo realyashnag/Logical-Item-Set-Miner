@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import bisect
+import pickle
 import glob
 
 # Version : The android version file
@@ -31,27 +31,50 @@ def groupOnFiles(allversionsdf):
         for index in df:
             if index not in filesList:
                 filesList.append(index)
-                print (index)
+                # print (index)
 
     return filesList
 
+def makeFileBasedDF(allversionsdf, filesList):
+    fileBasedDF = {}
+    for x in filesList:                                         # 19,000 loops
+        df_for_a_file = pd.DataFrame(columns=filesList)
+
+        for y in allversiondf.T:                                # No. of Versions loops
+            df_for_a_file.loc[len(df_for_a_file)] = np.array(y[x])
+
+        fileBasedDF.update(x:df_for_a_file)
+
+    return fileBasedDF
 
 var1 = accumulateAllVersions(all_versions_path)  #A Dictionary
-# print (var1)
+print (var1)
 var2 = groupOnFiles(var1)
+print ("\nLength of list of Common Files: ", len(var2))
+var3 = makeFileBasedDF(var1, var2)
 
-print (len(var2))
 
-# # Rough Work
-# df = pd.DataFrame({
-#                 'day': ['1/1/2017','1/2/2017','1/3/2017','1/4/2017','1/5/2017','1/6/2017'],
-#                 'temperature': [32,35,28,24,32,31],
-#                 'windspeed': [6,7,2,7,4,2],
-#                 'event': ['Rain', 'Sunny', 'Snow','Snow','Rain', 'Sunny'],
-#                })
-#
-# random = {"android_1.1": df, "android_2.1": df}
-# random.update({"android_3.1": df})
+
+
+
+
+
+# Rough Work
+df = pd.DataFrame({
+                'day': ['1/1/2017','1/2/2017','1/3/2017','1/4/2017','1/5/2017','1/6/2017'],
+                'temperature': [32,35,28,24,32,31],
+                'windspeed': [6,7,2,7,4,2],
+                'event': ['Rain', 'Sunny', 'Snow','Snow','Rain', 'Sunny'],
+               })
+
+df2 = pd.DataFrame(columns=['day', 'temperature', 'windspeed', 'event'])
+
+
+print (np.array(df['windspeed']))
+random = {"android_1.1": df, "android_2.1": df}
+random.update({"android_3.1": df})
+for x in df.T:
+    print (df.T[x])
 
 
 # df2 = pd.DataFrame({
