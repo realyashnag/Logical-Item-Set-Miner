@@ -1,4 +1,3 @@
 Code Smells, AntiSingleton, BaseClassKnowsDerivedClass, BaseClassShouldBeAbstract, Blob, ClassDataShouldBePrivate, ComplexClass, FunctionalDecomposition, LargeClass, LazyClass, LongMethod, LongParameterList, ManyFieldAttributesButNotComplex, MessageChains, RefusedParentBequest, SpaghettiCode, SpeculativeGenerality, SwissArmyKnife, TraditionBreaker
-\cts\tests\src\android\app\cts,11,0,0,0,17,9,0,0,12,6,8,0,0,0,1,0,0,0
-\cts\tests\src\android\content\cts,1,0,0,0,1,3,0,0,6,2,0,0,0,0,0,0,0,0
-\cts\tests\src\android\media\cts,0,0,0,0,1,0,0,0,1,2,0,0,0,0,0,0,0,0
+falana,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+dheemka,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

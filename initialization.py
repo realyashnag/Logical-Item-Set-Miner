@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import glob
+from IPython.display import display, HTML
 
 # Version : The android version file
 # File:     Row per version, which is basically the analysis (including name as index) of a file
@@ -13,7 +14,7 @@ codeSmells = ["AntiSingleton", "BaseClassKnowsDerivedClass", "BaseClassShouldBeA
                "SwissArmyKnife", "TraditionBreaker"]
 
 all_versions_path = np.array(glob.glob("testing_data/*.csv"))
-# print (all_versions_path)
+print (all_versions_path)
 
 
 def __init__(version_path):
@@ -33,59 +34,69 @@ def accumulateAllVersions(all_versions_path):
     return allversionsdf, allversionsname
 
 def groupOnFiles(allversionsdf):
-    filesList = []
+    all_files_list = []
     for version_name in allversionsdf:                      # Iterate over every file in the version
         df = allversionsdf[version_name].T
         for index in df:
-            if index not in filesList:
-                filesList.append(index)
-                # print (index)
+            if index not in all_files_list:
+                all_files_list.append(index)
 
-    return filesList
+    return all_files_list
 
-def makeFileBasedDF(allversionsdf, allversionsname, fileslist):
+def makeFileBasedDF(allversionsdf, allversionsname, all_files_list):
     fileBasedDF = {}
-    for x in fileslist[0:100]:
-        print ("\nWorking for file: ", x)
+    non_empty_file_list = []
+    for x in all_files_list:
+        #print ("\nWorking for file: ", x)
         df_for_a_file = pd.DataFrame(columns = codeSmells, index = allversionsname)
 
+        emptyDF = True
         for y in allversionsdf:
             if (x in allversionsdf[y].T.columns):
-                print ("\nIncluded")
+                #print ("\nIncluded")
                 mycolumn = np.array(allversionsdf[y].T[x])
-                print ("Appending ", mycolumn,  " to the file.")
+                if (np.any(mycolumn)):
+                    emptyDF = False
+
+                #print ("Appending ", mycolumn,  " to the file.")
                 transpose = df_for_a_file.T
                 transpose[y] = mycolumn
                 df_for_a_file = transpose.T
             else:
-                print ("\nNot Included!")
-                print ("\n\tDropping ", y, " from DF.")
+                #print ("\nNot Included!")
+                #print ("\n\tDropping ", y, " from DF.")
                 df_for_a_file.drop(y, axis=0, inplace=True)
 
         #print ("\nFinal DF of ", x, ": ", df_for_a_file)
-        fileBasedDF.update({x:df_for_a_file})
-    return fileBasedDF
+        if (emptyDF == False):
+            # print ("\nDataFrame is not empty: ", x)
+            # print (fileBasedDF)
+            fileBasedDF.update({x:df_for_a_file})
+        else:
+            # print ("\nDataFrame is empty: ", x)
+            # Remove that file from all_files_list
+            non_empty_file_list.append(x)
+
+    return fileBasedDF, non_empty_file_list
 
 def saveFileBasedDFPickle(path, fileBasedDF):
     with open(path, 'wb') as pickleFile:
         pickle.dump(fileBasedDF, pickleFile, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-print (codeSmells)
-var1, var2 = accumulateAllVersions(all_versions_path)  #A Dictionary
-# print (var1)
-# print (len(var1))
-var3 = groupOnFiles(var1)
-var4 = makeFileBasedDF(var1, var2, var3)
-# print (var4)
-# print(len(var4))
-vocabulary = codeSmells
-bagOfItems = 0
+allversionsdf, allversionsname = accumulateAllVersions(all_versions_path)  #A Dictionary, #a list
+all_files_list = groupOnFiles(allversionsdf)
+fileBasedDF, non_empty_file_list = makeFileBasedDF(allversionsdf, allversionsname, all_files_list)
+
+for x in fileBasedDF:
+    print (x)
+    display(fileBasedDF[x])
 
 
-saveFileBasedDFPickle(var3)
+saveFileBasedDFPickle("fileBasedDF.pickle",fileBasedDF)
 
 
+#=================================================================================================
 
 
 # # Rough Work
