@@ -88,10 +88,10 @@ allversionsdf, allversionsname = accumulateAllVersions(all_versions_path)  #A Di
 all_files_list = groupOnFiles(allversionsdf)
 fileBasedDF, non_empty_file_list = makeFileBasedDF(allversionsdf, allversionsname, all_files_list)
 
-for x in fileBasedDF:
-    print (x)
-    display(fileBasedDF[x])
-
+# #Print File Based DataFrames (Tables)
+# for x in fileBasedDF:
+#     print (x)
+#     display(fileBasedDF[x])
 
 saveFileBasedDFPickle("fileBasedDF.pickle",fileBasedDF)
 
