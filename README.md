@@ -5,5 +5,4 @@ LISM Implementation using Python 3.6, based on the beautifully written paper by 
  - [Pandas](https://pandas.pydata.org/): DataFrame Operations
  - [NumPy](http://www.numpy.org/): nD Array Manipulations
 
-
 `Please Note that this implementation is for my "Code Smell Project" and most parts are specific to that. Please feel free to contribute and make a generalized implementation!`

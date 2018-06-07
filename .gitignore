@@ -1,2 +1,2 @@
 *.pickle
-testing_data/*
+/testing_data/*
