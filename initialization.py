@@ -11,7 +11,7 @@ from IPython.display import display, HTML
 codeSmells = ["AntiSingleton", "BaseClassKnowsDerivedClass", "BaseClassShouldBeAbstract", "Blob", "ClassDataShouldBePrivate",
                "ComplexClass", "FunctionalDecomposition", "LargeClass", "LazyClass", "LongMethod", "LongParameterList",
                "ManyFieldAttributesButNotComplex", "MessageChains", "RefusedParentBequest", "SpaghettiCode", "SpeculativeGenerality",
-               "SwissArmyKnife", "TraditionBreaker"]
+               "SwissArmyKnife", "TraditionBreaker"];
 
 all_versions_path = np.array(glob.glob("testing_data/*.csv"))
 print (all_versions_path)
@@ -79,21 +79,22 @@ def makeFileBasedDF(allversionsdf, allversionsname, all_files_list):
 
     return fileBasedDF, non_empty_file_list
 
-def saveFileBasedDFPickle(path, fileBasedDF):
+def saveFileBasedDFPickle(path, fileBasedDF):           #Not Completed
     with open(path, 'wb') as pickleFile:
         pickle.dump(fileBasedDF, pickleFile, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-allversionsdf, allversionsname = accumulateAllVersions(all_versions_path)  #A Dictionary, #a list
-all_files_list = groupOnFiles(allversionsdf)
-fileBasedDF, non_empty_file_list = makeFileBasedDF(allversionsdf, allversionsname, all_files_list)
+def __main__:
+    allversionsdf, allversionsname = accumulateAllVersions(all_versions_path)  # Dictionary, # list
+    all_files_list = groupOnFiles(allversionsdf)
+    fileBasedDF, non_empty_file_list = makeFileBasedDF(allversionsdf, allversionsname, all_files_list) # Dictionary, # List
 
-# #Print File Based DataFrames (Tables)
-# for x in fileBasedDF:
-#     print (x)
-#     display(fileBasedDF[x])
+    # #Print File Based DataFrames (Tables)
+    for x in fileBasedDF[:1]:
+        print (x)
+        display(fileBasedDF[x])
 
-saveFileBasedDFPickle("fileBasedDF.pickle",fileBasedDF)
+    saveFileBasedDFPickle("fileBasedDF.pickle",fileBasedDF)
 
 
 #=================================================================================================
